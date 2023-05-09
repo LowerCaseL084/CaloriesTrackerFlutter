@@ -14,7 +14,11 @@ class CaloriesApp extends StatelessWidget {
     return MaterialApp(
       title: 'Calorie Tracker',
       theme: ThemeData(
+<<<<<<< Updated upstream
         primaryColor: Color(0xFF070A52),
+=======
+        primarySwatch: Colors.blue,
+>>>>>>> Stashed changes
       ),
       home: const CaloriesHomePage(title: 'Home Page'),
       initialRoute: '/',
