@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:calories_tracker/colours.dart';
 import 'package:calories_tracker/settings.dart';
 
 void main() {
@@ -13,18 +14,14 @@ class CaloriesApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Calorie Tracker',
-      theme: ThemeData(
-<<<<<<< Updated upstream
-        primaryColor: Color(0xFF070A52),
-=======
-        primarySwatch: Colors.blue,
->>>>>>> Stashed changes
-      ),
+      theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
+      darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
       home: const CaloriesHomePage(title: 'Home Page'),
       initialRoute: '/',
       routes: {
         '/settings' :(context) => const CaloriesSettingsPage(title: "Settings"),
-        '/settings/user_settings' :(context) => const CaloriesUserSettingsPage(title: "User Settings")
+        '/settings/user_settings' :(context) => const CaloriesUserSettingsPage(title: "User Settings"),
+        '/settings/goal_settings' :(context) => const CaloriesGoalSettingsPage(title: "User Settings"),
       }
     );
   }
@@ -44,10 +41,10 @@ class _CaloriesHomePageState extends State<CaloriesHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF070A52),
+      //backgroundColor: ThemeColoursDefault.BACKGROUND_COLOUR,
       appBar: AppBar(
         title: Text(widget.title),
-        backgroundColor: const Color(0xFF00337C),
+        //backgroundColor: ThemeColoursDefault.APP_BAR_COLOUR,
       ),
       body: Center(
         child: Column(
@@ -57,7 +54,7 @@ class _CaloriesHomePageState extends State<CaloriesHomePage> {
               'Today\'s Goal:',
               style: TextStyle(
                 fontSize: 25.0,
-                color: Color(0xFFFFFFFF),
+                //color: ThemeColoursDefault.TEXT_COLOUR,
               ),
             ),
           ],
