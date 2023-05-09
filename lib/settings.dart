@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:settings_ui/settings_ui.dart';
+import 'package:flutter/material.dart';
 
 class CaloriesSettingsPage extends StatelessWidget {
   const CaloriesSettingsPage({super.key, required this.title});
@@ -21,7 +22,7 @@ class CaloriesSettingsPage extends StatelessWidget {
                   'User Information',
                   style: TextStyle(
                   fontSize: 25.0,
-                  color: Color(0xFFFFFFFF),
+                  color: Color(0xFF000000),
                   )
                 ),
                 onPressed: (context) => {Navigator.pushNamed(context, '/settings/user_settings')},
@@ -31,7 +32,7 @@ class CaloriesSettingsPage extends StatelessWidget {
                   'Goal Settings',
                   style: TextStyle(
                   fontSize: 25.0,
-                  color: Color(0xFFFFFFFF),
+                  color: Color(0xFF000000),
                   )
                 ),
                 onPressed: (context) => {},
@@ -41,7 +42,7 @@ class CaloriesSettingsPage extends StatelessWidget {
                   'Allergies',
                   style: TextStyle(
                   fontSize: 25.0,
-                  color: Color(0xFFFFFFFF),
+                  color: Color(0xFF000000),
                   )
                 ),
                 onPressed: (context) => {},
@@ -51,7 +52,7 @@ class CaloriesSettingsPage extends StatelessWidget {
                   'Application Settings',
                   style: TextStyle(
                   fontSize: 25.0,
-                  color: Color(0xFFFFFFFF),
+                  color: Color(0xFF000000),
                   )
                 ),
                 onPressed: (context) => {},
@@ -72,17 +73,19 @@ class CaloriesUserSettingsPage extends StatefulWidget {
 }
 class _CaloriesUserSettingsPageState extends State<CaloriesUserSettingsPage> {
   String userName='Aishwarya';
-  int height=140;
+
   // From Harsh Pipaliya
   // https://stackoverflow.com/questions/49778217/how-to-create-a-dialog-that-is-able-to-accept-text-input-and-show-result-in-flut
-  Future<void> _displayTextInputDialog(BuildContext context, {String title='', required TextEditingController controller, required void Function(String) onTextEntered}) async {
+  final TextEditingController _textFieldController = TextEditingController();
+  Future<void> _displayTextInputDialog(BuildContext context, String title, String fieldText, void Function(String) action) async {
     return showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
           title: Text(title),
           content: TextField(
-            controller: controller,
+            controller: _textFieldController,
+            decoration: InputDecoration(hintText: fieldText),
           ),
           actions: <Widget>[
             TextButton(
@@ -94,54 +97,9 @@ class _CaloriesUserSettingsPageState extends State<CaloriesUserSettingsPage> {
             TextButton(
               child: const Text('OK'),
               onPressed: () {
-                onTextEntered(controller.text);
+                action(_textFieldController.text);
                 setState((){});
                 Navigator.pop(context);
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  Future<void> _displayIntInputDialog(BuildContext context, {String title='', required TextEditingController controller, required void Function(int) onIntEntered}) async {
-    return showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text(title),
-          content: TextField(
-            controller: controller,
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('CANCEL'),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            TextButton(
-              child: const Text('OK'),
-              onPressed: () {
-                
-                int? val = int.tryParse(controller.text);
-                if(val == null)
-                {
-                  Navigator.pop(context);
-                  showDialog(context: context, builder: (context) {
-                    return const AlertDialog(
-                      title: Text("Invalid input"),
-                      content: Text("Enter valid integer!"),
-                    );
-                  });
-                }
-                else
-                {
-                  onIntEntered(val);
-                  setState((){});
-                  Navigator.pop(context);
-                }
               },
             ),
           ],
@@ -154,6 +112,7 @@ class _CaloriesUserSettingsPageState extends State<CaloriesUserSettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: const Color(0xFF00337C),
         title: Text(widget.title),
       ),
       body: SettingsList(
@@ -164,22 +123,8 @@ class _CaloriesUserSettingsPageState extends State<CaloriesUserSettingsPage> {
                 title: const Text('Name'),
                 trailing: Text(userName),
                 onPressed: (context) => {
-                  _displayTextInputDialog(context, 
-                  title: "Enter username: ", 
-                  controller: TextEditingController(text: userName),
-                  onTextEntered: (s) => {userName = s}),
-                },
-              ),
-              SettingsTile(
-                title: const Text('Height'),
-                trailing: Text(height.toString()),
-                onPressed: (context) => {
-                  _displayIntInputDialog(context, 
-                  title: "Enter height: ", 
-                  controller: TextEditingController(text: height.toString()),
-                  onIntEntered: (val) {height = val;}
-                  ),
-                },
+                  _displayTextInputDialog(context, "Enter username: ", userName, (s) => {userName = s}),
+                  },
               ),
             ],
           ),
