@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:settings_ui/settings_ui.dart';
-import 'package:flutter/material.dart';
 
 class CaloriesSettingsPage extends StatelessWidget {
   const CaloriesSettingsPage({super.key, required this.title});
@@ -73,19 +72,17 @@ class CaloriesUserSettingsPage extends StatefulWidget {
 }
 class _CaloriesUserSettingsPageState extends State<CaloriesUserSettingsPage> {
   String userName='Aishwarya';
-
+  int height=140;
   // From Harsh Pipaliya
   // https://stackoverflow.com/questions/49778217/how-to-create-a-dialog-that-is-able-to-accept-text-input-and-show-result-in-flut
-  final TextEditingController _textFieldController = TextEditingController();
-  Future<void> _displayTextInputDialog(BuildContext context, String title, String fieldText, void Function(String) action) async {
+  Future<void> _displayTextInputDialog(BuildContext context, {String title='', required TextEditingController controller, required void Function(String) onTextEntered}) async {
     return showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
           title: Text(title),
           content: TextField(
-            controller: _textFieldController,
-            decoration: InputDecoration(hintText: fieldText),
+            controller: controller,
           ),
           actions: <Widget>[
             TextButton(
@@ -97,9 +94,54 @@ class _CaloriesUserSettingsPageState extends State<CaloriesUserSettingsPage> {
             TextButton(
               child: const Text('OK'),
               onPressed: () {
-                action(_textFieldController.text);
+                onTextEntered(controller.text);
                 setState((){});
                 Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _displayIntInputDialog(BuildContext context, {String title='', required TextEditingController controller, required void Function(int) onIntEntered}) async {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(title),
+          content: TextField(
+            controller: controller,
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('CANCEL'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                
+                int? val = int.tryParse(controller.text);
+                if(val == null)
+                {
+                  Navigator.pop(context);
+                  showDialog(context: context, builder: (context) {
+                    return const AlertDialog(
+                      title: Text("Invalid input"),
+                      content: Text("Enter valid integer!"),
+                    );
+                  });
+                }
+                else
+                {
+                  onIntEntered(val);
+                  setState((){});
+                  Navigator.pop(context);
+                }
               },
             ),
           ],
@@ -122,8 +164,22 @@ class _CaloriesUserSettingsPageState extends State<CaloriesUserSettingsPage> {
                 title: const Text('Name'),
                 trailing: Text(userName),
                 onPressed: (context) => {
-                  _displayTextInputDialog(context, "Enter username: ", userName, (s) => {userName = s}),
-                  },
+                  _displayTextInputDialog(context, 
+                  title: "Enter username: ", 
+                  controller: TextEditingController(text: userName),
+                  onTextEntered: (s) => {userName = s}),
+                },
+              ),
+              SettingsTile(
+                title: const Text('Height'),
+                trailing: Text(height.toString()),
+                onPressed: (context) => {
+                  _displayIntInputDialog(context, 
+                  title: "Enter height: ", 
+                  controller: TextEditingController(text: height.toString()),
+                  onIntEntered: (val) {height = val;}
+                  ),
+                },
               ),
             ],
           ),
