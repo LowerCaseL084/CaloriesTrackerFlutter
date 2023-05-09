@@ -18,43 +18,36 @@ class CaloriesSettingsPage extends StatelessWidget {
           SettingsSection(
             tiles: [
               SettingsTile(
-                title: const Text(
-                  'User Information',
-                  style: TextStyle(
-                  fontSize: 25.0,
-                  color: Color(0xFF000000),
-                  )
-                ),
-                onPressed: (context) => {Navigator.pushNamed(context, '/settings/user_settings')},
+                title: const Text('User Information',
+                    style: TextStyle(
+                      fontSize: 25.0,
+                      color: Color(0xFF000000),
+                    )),
+                onPressed: (context) =>
+                    {Navigator.pushNamed(context, '/settings/user_settings')},
               ),
               SettingsTile(
-                title: const Text(
-                  'Goal Settings',
-                  style: TextStyle(
-                  fontSize: 25.0,
-                  color: Color(0xFF000000),
-                  )
-                ),
+                title: const Text('Goal Settings',
+                    style: TextStyle(
+                      fontSize: 25.0,
+                      color: Color(0xFF000000),
+                    )),
                 onPressed: (context) => {},
               ),
               SettingsTile(
-                title: const Text(
-                  'Allergies',
-                  style: TextStyle(
-                  fontSize: 25.0,
-                  color: Color(0xFF000000),
-                  )
-                ),
+                title: const Text('Allergies',
+                    style: TextStyle(
+                      fontSize: 25.0,
+                      color: Color(0xFF000000),
+                    )),
                 onPressed: (context) => {},
               ),
               SettingsTile(
-                title: const Text(
-                  'Application Settings',
-                  style: TextStyle(
-                  fontSize: 25.0,
-                  color: Color(0xFF000000),
-                  )
-                ),
+                title: const Text('Application Settings',
+                    style: TextStyle(
+                      fontSize: 25.0,
+                      color: Color(0xFF000000),
+                    )),
                 onPressed: (context) => {},
               ),
             ],
@@ -69,15 +62,20 @@ class CaloriesUserSettingsPage extends StatefulWidget {
   const CaloriesUserSettingsPage({super.key, required this.title});
   final String title;
   @override
-  State<CaloriesUserSettingsPage> createState() => _CaloriesUserSettingsPageState();
+  State<CaloriesUserSettingsPage> createState() =>
+      _CaloriesUserSettingsPageState();
 }
+
+String uName = 'Enter Name';//To be kept in a textfile containing user data within secondary storage
+
 class _CaloriesUserSettingsPageState extends State<CaloriesUserSettingsPage> {
-  String userName='Aishwarya';
+  String userName = uName;
 
   // From Harsh Pipaliya
   // https://stackoverflow.com/questions/49778217/how-to-create-a-dialog-that-is-able-to-accept-text-input-and-show-result-in-flut
   final TextEditingController _textFieldController = TextEditingController();
-  Future<void> _displayTextInputDialog(BuildContext context, String title, String fieldText, void Function(String) action) async {
+  Future<void> _displayTextInputDialog(BuildContext context, String title,
+      String fieldText, void Function(String) action) async {
     return showDialog(
       context: context,
       builder: (context) {
@@ -98,7 +96,8 @@ class _CaloriesUserSettingsPageState extends State<CaloriesUserSettingsPage> {
               child: const Text('OK'),
               onPressed: () {
                 action(_textFieldController.text);
-                setState((){});
+                uName = _textFieldController.text;
+                setState(() {});
                 Navigator.pop(context);
               },
             ),
@@ -123,8 +122,9 @@ class _CaloriesUserSettingsPageState extends State<CaloriesUserSettingsPage> {
                 title: const Text('Name'),
                 trailing: Text(userName),
                 onPressed: (context) => {
-                  _displayTextInputDialog(context, "Enter username: ", userName, (s) => {userName = s}),
-                  },
+                  _displayTextInputDialog(context, "Enter username: ", userName,
+                      (s) => {userName = s}),
+                },
               ),
             ],
           ),
