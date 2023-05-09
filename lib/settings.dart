@@ -12,7 +12,8 @@ mixin InputDialog {
       builder: (context) {
         return AlertDialog(
           content: TextField(
-            controller: controller,
+            controller: _textFieldController,
+            decoration: InputDecoration(hintText: fieldText),
           ),
           actions: <Widget>[
             TextButton(
@@ -151,6 +152,7 @@ class _CaloriesUserSettingsPageState extends State<CaloriesUserSettingsPage> wit
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: const Color(0xFF00337C),
         title: Text(widget.title),
       ),
       body: SettingsList(
