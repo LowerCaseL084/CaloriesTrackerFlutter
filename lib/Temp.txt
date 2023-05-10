@@ -1,0 +1,35 @@
+body: SettingsList(
+        sections: [
+          SettingsSection(
+            tiles: [
+              SettingsTile(
+                title: const Text('Target Weight',
+                    style: TextStyle(
+                      fontSize: 25.0,
+                    )),
+                trailing: Text(widget.targetWeight.toString(),
+                    style: const TextStyle(
+                      fontSize: 25.0,
+                    )),
+                onPressed: (context) => {
+                  _displayIntInputDialog(context,
+                      title: "Enter username: ",
+                      controller: TextEditingController(
+                          text: widget.targetWeight.toString()),
+                      onIntEntered: (s) {
+                    widget.targetWeight = s;
+                    setState(() {});
+                  }),
+                },
+              ),
+              SettingsTile.switchTile(
+                  initialValue: widget.isRecommendedSettings,
+                  onToggle: (value) {
+                    widget.isRecommendedSettings = value;
+                    setState(() {});
+                  },
+                  title: const Text("Recommended Settings")),
+            ],
+          ),
+        ],
+      ),

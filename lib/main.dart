@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:calories_tracker/colours.dart';
 import 'package:calories_tracker/settings.dart';
 
 void main() {
@@ -14,8 +13,6 @@ class CaloriesApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Calorie Tracker',
-      theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
-      darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
       home: const CaloriesHomePage(title: 'Home Page'),
       initialRoute: '/',
       routes: {
@@ -29,22 +26,19 @@ class CaloriesApp extends StatelessWidget {
 
 class CaloriesHomePage extends StatefulWidget {
   const CaloriesHomePage({super.key, required this.title});
-
   final String title;
-
   @override
   State<CaloriesHomePage> createState() => _CaloriesHomePageState();
 }
 
 class _CaloriesHomePageState extends State<CaloriesHomePage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //backgroundColor: ThemeColoursDefault.BACKGROUND_COLOUR,
+      backgroundColor: const Color(0xFF070A52),
       appBar: AppBar(
         title: Text(widget.title),
-        //backgroundColor: ThemeColoursDefault.APP_BAR_COLOUR,
+        backgroundColor: const Color(0xFF00337C),
       ),
       body: Center(
         child: Column(
@@ -54,7 +48,7 @@ class _CaloriesHomePageState extends State<CaloriesHomePage> {
               'Today\'s Goal:',
               style: TextStyle(
                 fontSize: 25.0,
-                //color: ThemeColoursDefault.TEXT_COLOUR,
+                color: Color(0xFFFFFFFF),
               ),
             ),
           ],
