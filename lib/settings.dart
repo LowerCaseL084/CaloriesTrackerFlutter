@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-//import 'package:settings_ui/settings_ui.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:calories_tracker/allergies.dart';
 
 mixin InputDialog {
   // From Harsh Pipaliya
@@ -78,6 +79,8 @@ mixin InputDialog {
   }
 }
 
+// Settings page
+
 class CaloriesSettingsPage extends StatelessWidget {
   const CaloriesSettingsPage({super.key, required this.title});
   final String title;
@@ -115,7 +118,7 @@ class CaloriesSettingsPage extends StatelessWidget {
                 fontSize: 25.0,
               )
             ),
-            onTap: () => {},
+            onTap: () => {Navigator.pushNamed(context, '/settings/allergies_list')},
           ),
           ListTile(
             title: const Text(
@@ -132,6 +135,8 @@ class CaloriesSettingsPage extends StatelessWidget {
   }
 }
 
+// User settings page
+
 class CaloriesUserSettingsPage extends StatefulWidget {
   const CaloriesUserSettingsPage({super.key, required this.title});
   final String title;
@@ -140,9 +145,33 @@ class CaloriesUserSettingsPage extends StatefulWidget {
 }
 
 class _CaloriesUserSettingsPageState extends State<CaloriesUserSettingsPage> with InputDialog {
-  String userName='Aishwarya';
-  int height=140;
-  int weight=50;
+
+  String _userName='';
+  int _height=0;
+  int _weight=0;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadValues();
+  }
+
+  Future<void> _loadValues() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _userName = (prefs.getString('user_name') ?? '');
+      _height = (prefs.getInt('height') ?? 0);
+      _weight = (prefs.getInt('weight') ?? 0);
+    });
+  }
+
+  Future<void> _updateValues() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('user_name', _userName);
+    prefs.setInt('height', _height);
+    prefs.setInt('weight', _weight);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -160,7 +189,7 @@ class _CaloriesUserSettingsPageState extends State<CaloriesUserSettingsPage> wit
               )
             ),
             trailing: Text(
-              userName,
+              _userName,
               style: const TextStyle(
                 fontSize: 25.0,
               )
@@ -168,8 +197,8 @@ class _CaloriesUserSettingsPageState extends State<CaloriesUserSettingsPage> wit
             onTap: () => {
               _displayTextInputDialog(context, 
               title: "Enter username: ", 
-              controller: TextEditingController(text: userName),
-              onTextEntered: (s) {userName = s; setState((){});}),
+              controller: TextEditingController(text: _userName),
+              onTextEntered: (s) {_userName = s; _updateValues(); setState((){});}),
             },
           ),
           ListTile(
@@ -180,7 +209,7 @@ class _CaloriesUserSettingsPageState extends State<CaloriesUserSettingsPage> wit
               )
             ),
             trailing: Text(
-              height.toString(),
+              _height.toString(),
               style: const TextStyle(
                 fontSize: 25.0,
               )
@@ -188,8 +217,8 @@ class _CaloriesUserSettingsPageState extends State<CaloriesUserSettingsPage> wit
             onTap: () => {
               _displayIntInputDialog(context, 
               title: "Enter height: ", 
-              controller: TextEditingController(text: height.toString()),
-              onIntEntered: (val) {height = val; setState((){});}
+              controller: TextEditingController(text: _height.toString()),
+              onIntEntered: (val) {_height = val; _updateValues(); setState((){});}
               ),
             },
           ),
@@ -201,7 +230,7 @@ class _CaloriesUserSettingsPageState extends State<CaloriesUserSettingsPage> wit
               )
             ),
             trailing: Text(
-              weight.toString(),
+              _weight.toString(),
               style: const TextStyle(
                 fontSize: 25.0,
               )
@@ -209,8 +238,8 @@ class _CaloriesUserSettingsPageState extends State<CaloriesUserSettingsPage> wit
             onTap: () => {
               _displayIntInputDialog(context, 
               title: "Enter weight: ", 
-              controller: TextEditingController(text: weight.toString()),
-              onIntEntered: (val) {weight = val; setState((){});}
+              controller: TextEditingController(text: _weight.toString()),
+              onIntEntered: (val) {_weight = val; _updateValues(); setState((){});}
               ),
             },
           ),
@@ -220,6 +249,8 @@ class _CaloriesUserSettingsPageState extends State<CaloriesUserSettingsPage> wit
   }
 }
 
+// Goal settings page
+
 class CaloriesGoalSettingsPage extends StatefulWidget {
   const CaloriesGoalSettingsPage({super.key, required this.title});
   final String title;
@@ -228,8 +259,29 @@ class CaloriesGoalSettingsPage extends StatefulWidget {
 }
 
 class _CaloriesGoalSettingsPageState extends State<CaloriesGoalSettingsPage> with InputDialog {
-  int targetWeight = 55;
-  bool isRecommendedSettings = true;
+  int _targetWeight = 0;
+  bool _isRecommendedSettings = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadValues();
+  }
+
+  Future<void> _loadValues() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _isRecommendedSettings = (prefs.getBool('recommended_settings') ?? true);
+      _targetWeight = (prefs.getInt('target_weight') ?? 0);
+    });
+  }
+
+  Future<void> _updateValues() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setBool('recommended_settings', _isRecommendedSettings);
+    prefs.setInt('target_weight', _targetWeight);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -247,7 +299,7 @@ class _CaloriesGoalSettingsPageState extends State<CaloriesGoalSettingsPage> wit
               )
             ),
             trailing: Text(
-              targetWeight.toString(),
+              _targetWeight.toString(),
               style: const TextStyle(
                 fontSize: 25.0,
               )
@@ -255,20 +307,84 @@ class _CaloriesGoalSettingsPageState extends State<CaloriesGoalSettingsPage> wit
             onTap: () => {
               _displayIntInputDialog(context, 
               title: "Enter username: ", 
-              controller: TextEditingController(text: targetWeight.toString()),
-              onIntEntered: (s) {targetWeight = s; setState((){});}),
+              controller: TextEditingController(text: _targetWeight.toString()),
+              onIntEntered: (s) {_targetWeight = s; _updateValues(); setState((){});}),
             },
           ),
           ListTile(
             title: const Text("Recommended Settings"),
             trailing: Switch(
-              value: isRecommendedSettings,
+              value: _isRecommendedSettings,
               onChanged: (value) {
-                isRecommendedSettings = value;
+                _isRecommendedSettings = value;
+                _updateValues();
                 setState((){});
               },
             ),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+// Allergies list
+
+class CaloriesAllergiesListPage extends StatefulWidget {
+  const CaloriesAllergiesListPage({super.key, required this.title});
+  final String title;
+  @override
+  State<CaloriesAllergiesListPage> createState() => _CaloriesAllergiesListPageState();
+}
+
+class _CaloriesAllergiesListPageState extends State<CaloriesAllergiesListPage> {
+  final Map<CaloriesAllergy,bool> _allergies = { for (var i in CaloriesAllergy.values) i:false };
+
+  @override
+  void initState() {
+    super.initState();
+    _loadValues();
+  }
+
+  Future<void> _loadValues() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      for(var i in CaloriesAllergy.values)
+      {
+        _allergies[i] = (prefs.getBool(i.preferenceKey) ?? false);
+      }
+    });
+  }
+
+  Future<void> _updateValues() async {
+    final prefs = await SharedPreferences.getInstance();
+    for(var i in CaloriesAllergy.values)
+    {
+      prefs.setBool(i.preferenceKey, _allergies[i] ?? false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Column(
+        //mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          for (var i in CaloriesAllergy.values)
+            ListTile(
+              title: Text(i.text),
+              trailing: Checkbox(
+                value: _allergies[i],
+                onChanged: (bool? value) {
+                  _allergies[i] = value ?? false;
+                  _updateValues();
+                  setState(() {});
+                },
+              ),
+            ),
         ],
       ),
     );
