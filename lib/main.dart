@@ -20,8 +20,8 @@ class CaloriesApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/settings' :(context) => const CaloriesSettingsPage(title: "Settings"),
-        '/settings/user_settings' :(context) => CaloriesUserSettingsPage(title: "User Settings"),
-        '/settings/goal_settings' :(context) => CaloriesGoalSettingsPage(title: "User Settings"),
+        '/settings/user_settings' :(context) => const CaloriesUserSettingsPage(title: "User Settings"),
+        '/settings/goal_settings' :(context) => const CaloriesGoalSettingsPage(title: "User Settings"),
       }
     );
   }
