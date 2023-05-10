@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:settings_ui/settings_ui.dart';
-<<<<<<< HEAD
 import 'package:calories_tracker/colours.dart';
 
 mixin InputDialog {
@@ -8,7 +7,6 @@ mixin InputDialog {
   // https://stackoverflow.com/questions/49778217/how-to-create-a-dialog-that-is-able-to-accept-text-input-and-show-result-in-flut
   
   Future<void> _displayTextInputDialog(BuildContext context, {String title='', required TextEditingController controller, required void Function(String) onTextEntered}) async {
-=======
 import 'package:flutter/material.dart';
 
 class CaloriesSettingsPage extends StatelessWidget {
@@ -85,7 +83,6 @@ class _CaloriesUserSettingsPageState extends State<CaloriesUserSettingsPage> {
   final TextEditingController _textFieldController = TextEditingController();
   Future<void> _displayTextInputDialog(BuildContext context, String title,
       String fieldText, void Function(String) action) async {
->>>>>>> c72c66a172294db329f4ce5cf14c79ed1c9a265e
     return showDialog(
       context: context,
       builder: (context) {
