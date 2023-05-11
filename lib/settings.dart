@@ -1,6 +1,8 @@
+import 'package:calories_tracker/colours.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:calories_tracker/allergies.dart';
+import 'package:provider/provider.dart';
 
 mixin InputDialog {
   // From Harsh Pipaliya
@@ -152,10 +154,9 @@ class _CaloriesUserSettingsPageState extends State<CaloriesUserSettingsPage>
   int _height = 0;
   int _weight = 0;
   int _age = 0;
-  String _temp = '----';
-  String _gender = '----';
-  var items = [
-    '----',
+  String _gender = 'None';
+  final items = [
+    'None',
     'Male',
     'Female',
   ];
@@ -173,8 +174,7 @@ class _CaloriesUserSettingsPageState extends State<CaloriesUserSettingsPage>
       _height = (prefs.getInt('height') ?? 0);
       _weight = (prefs.getInt('weight') ?? 0);
       _age = (prefs.getInt('age') ?? 0);
-      // _gender = (prefs.getString('gender') ?? '');
-      // _temp = (prefs.getString('temp') ?? '');
+      _gender = (prefs.getString('gender') ?? '');
     });
   }
 
@@ -184,8 +184,7 @@ class _CaloriesUserSettingsPageState extends State<CaloriesUserSettingsPage>
     prefs.setInt('height', _height);
     prefs.setInt('weight', _weight);
     prefs.setInt('age', _age);
-    // prefs.setString('gender', _gender);
-    // prefs.setString('temp', _temp);
+    prefs.setString('gender', _gender);
   }
 
   @override
@@ -268,7 +267,7 @@ class _CaloriesUserSettingsPageState extends State<CaloriesUserSettingsPage>
               trailing: Text(
                 _age.toString(),
                 style: const TextStyle(
-                  fontSize: 20.0,
+                  fontSize: 25.0,
                 ),
               ),
               onTap: () {
@@ -282,39 +281,24 @@ class _CaloriesUserSettingsPageState extends State<CaloriesUserSettingsPage>
                 });
               },
             ),
-            // ListTile(
-            //   title: const Text(
-            //     'Gender',
-            //     style: TextStyle(
-            //       fontSize: 25.0,
-            //     ),
-            //   ),
-            //   trailing: Container(
-            //     padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-            //     child: DropdownButton(
-            //       value: _temp,
-            //       icon: const Icon(Icons.keyboard_arrow_down),
-            //       items: items.map((String items) {
-            //         return DropdownMenuItem(
-            //           value: items,
-            //           child: SizedBox(
-            //             width: 100,
-            //             child: Text(
-            //               items,
-            //             ),
-            //           ),
-            //         );
-            //       }).toList(),
-            //       onChanged: (String? newValue) {
-            //         setState(() {
-            //           _temp = newValue!;
-            //         });
-            //         _gender = _temp;
-            //         _updateValues();
-            //       },
-            //     ),
-            //   ),
-            // ),
+            ListTile(
+              title: const Text(
+                'Gender',
+                style: TextStyle(
+                  fontSize: 25.0,
+                ),
+              ),
+              trailing: DropdownMenu<String>(
+                dropdownMenuEntries: items.map((e) => DropdownMenuEntry<String>(value: e, label: e)).toList(),
+                width: null,
+                initialSelection: _gender,
+                onSelected: (s) {
+                  _gender = s ?? 'None';
+                  _updateValues();
+                  setState(() {});
+                },
+              )
+            ),
           ],
         ),
       ),
@@ -481,6 +465,7 @@ class CaloriesApplicationSettingsPage extends StatefulWidget {
 class _CaloriesApplicationSettingsPageState
     extends State<CaloriesApplicationSettingsPage> {
   bool _manualInputMode = true;
+  String _theme = 'system';
 
   @override
   void initState() {
@@ -492,12 +477,14 @@ class _CaloriesApplicationSettingsPageState
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       _manualInputMode = (prefs.getBool('manual_input') ?? true);
+      _theme = (prefs.getString('theme') ?? 'system'); 
     });
   }
 
   Future<void> _updateValues() async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setBool('manual_input', _manualInputMode);
+    prefs.setString('theme', _theme);
   }
 
   @override
@@ -519,8 +506,30 @@ class _CaloriesApplicationSettingsPageState
               },
             ),
           ),
-          const ListTile(
-            title: Text("Theme"),
+          ListTile(
+            title: const Text("Theme"),
+            trailing: DropdownMenu<String>(
+              dropdownMenuEntries: ['System Default','Light', 'Dark'].map((e) => DropdownMenuEntry<String>(value: e, label: e)).toList(),
+              width: null,
+              initialSelection: _theme=='light'?'Light':(_theme == 'dark'?'Dark':'System Default'),
+              onSelected: (s) {
+                if(s == 'Light')
+                {
+                  _theme = 'light';
+                }
+                else if(s == 'Dark')
+                {
+                  _theme = 'dark';
+                }
+                else
+                {
+                  _theme = 'system';
+                }
+                _updateValues();
+                Provider.of<ThemeChangeNotifier>(context, listen: false).changeTheme(_theme);
+                setState(() {});
+              },
+            )
           ),
           const ListTile(
             title: Text("Clear Data"),
