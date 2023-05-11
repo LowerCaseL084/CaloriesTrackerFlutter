@@ -126,7 +126,9 @@ class CaloriesSettingsPage extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 25.0,
                 )),
-            onTap: () => {},
+            onTap: () => {
+              Navigator.pushNamed(context, '/settings/application_settings')
+            },
           ),
         ],
       ),
@@ -460,6 +462,72 @@ class _CaloriesAllergiesListPageState extends State<CaloriesAllergiesListPage> {
                 },
               ),
             ),
+        ],
+      ),
+    );
+  }
+}
+
+// Application settings page
+
+class CaloriesApplicationSettingsPage extends StatefulWidget {
+  const CaloriesApplicationSettingsPage({super.key, required this.title});
+  final String title;
+  @override
+  State<CaloriesApplicationSettingsPage> createState() =>
+      _CaloriesApplicationSettingsPageState();
+}
+
+class _CaloriesApplicationSettingsPageState
+    extends State<CaloriesApplicationSettingsPage> {
+  bool _manualInputMode = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadValues();
+  }
+
+  Future<void> _loadValues() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _manualInputMode = (prefs.getBool('manual_input') ?? true);
+    });
+  }
+
+  Future<void> _updateValues() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setBool('manual_input', _manualInputMode);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Column(
+        children: <Widget>[
+          ListTile(
+            title: const Text("Manual Input Mode"),
+            trailing: Switch(
+              value: _manualInputMode,
+              onChanged: (value) {
+                _manualInputMode = value;
+                _updateValues();
+                setState(() {});
+              },
+            ),
+          ),
+          const ListTile(
+            title: Text("Theme"),
+          ),
+          const ListTile(
+            title: Text("Clear Data"),
+          ),
+          const ListTile(
+            title: Text("Developer Info"),
+          ),
         ],
       ),
     );
