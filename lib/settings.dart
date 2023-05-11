@@ -280,37 +280,37 @@ class _CaloriesUserSettingsPageState extends State<CaloriesUserSettingsPage>
                 });
               },
             ),
-            const ListTile(
-              title: Text(
+            ListTile(
+              title: const Text(
                 'Gender',
                 style: TextStyle(
                   fontSize: 25.0,
                 ),
               ),
-            ),
-            Container(
-              padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-              child: DropdownButton(
-                value: _temp,
-                icon: const Icon(Icons.keyboard_arrow_down),
-                items: items.map((String items) {
-                  return DropdownMenuItem(
-                    value: items,
-                    child: SizedBox(
-                      width: 100,
-                      child: Text(
-                        items,
+              trailing: Container(
+                padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                child: DropdownButton(
+                  value: _temp,
+                  icon: const Icon(Icons.keyboard_arrow_down),
+                  items: items.map((String items) {
+                    return DropdownMenuItem(
+                      value: items,
+                      child: SizedBox(
+                        width: 100,
+                        child: Text(
+                          items,
+                        ),
                       ),
-                    ),
-                  );
-                }).toList(),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    _temp = newValue!;
-                  });
-                  _gender = _temp;
-                  _updateValues();
-                },
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _temp = newValue!;
+                    });
+                    _gender = _temp;
+                    _updateValues();
+                  },
+                ),
               ),
             ),
           ],
