@@ -116,13 +116,6 @@ class _CaloriesHomePageState extends State<CaloriesHomePage> {
           )
         ]),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, '/settings');
-        },
-        tooltip: 'Settings',
-        child: const Icon(Icons.add),
-      ),
     );
   }
 }
