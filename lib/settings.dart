@@ -173,8 +173,8 @@ class _CaloriesUserSettingsPageState extends State<CaloriesUserSettingsPage>
       _height = (prefs.getInt('height') ?? 0);
       _weight = (prefs.getInt('weight') ?? 0);
       _age = (prefs.getInt('age') ?? 0);
-      _gender = (prefs.getString('gender') ?? '');
-      _temp = (prefs.getString('temp') ?? '');
+      // _gender = (prefs.getString('gender') ?? '');
+      // _temp = (prefs.getString('temp') ?? '');
     });
   }
 
@@ -184,8 +184,8 @@ class _CaloriesUserSettingsPageState extends State<CaloriesUserSettingsPage>
     prefs.setInt('height', _height);
     prefs.setInt('weight', _weight);
     prefs.setInt('age', _age);
-    prefs.setString('gender', _gender);
-    prefs.setString('temp', _temp);
+    // prefs.setString('gender', _gender);
+    // prefs.setString('temp', _temp);
   }
 
   @override
@@ -282,39 +282,39 @@ class _CaloriesUserSettingsPageState extends State<CaloriesUserSettingsPage>
                 });
               },
             ),
-            ListTile(
-              title: const Text(
-                'Gender',
-                style: TextStyle(
-                  fontSize: 25.0,
-                ),
-              ),
-              trailing: Container(
-                padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                child: DropdownButton(
-                  value: _temp,
-                  icon: const Icon(Icons.keyboard_arrow_down),
-                  items: items.map((String items) {
-                    return DropdownMenuItem(
-                      value: items,
-                      child: SizedBox(
-                        width: 100,
-                        child: Text(
-                          items,
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      _temp = newValue!;
-                    });
-                    _gender = _temp;
-                    _updateValues();
-                  },
-                ),
-              ),
-            ),
+            // ListTile(
+            //   title: const Text(
+            //     'Gender',
+            //     style: TextStyle(
+            //       fontSize: 25.0,
+            //     ),
+            //   ),
+            //   trailing: Container(
+            //     padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+            //     child: DropdownButton(
+            //       value: _temp,
+            //       icon: const Icon(Icons.keyboard_arrow_down),
+            //       items: items.map((String items) {
+            //         return DropdownMenuItem(
+            //           value: items,
+            //           child: SizedBox(
+            //             width: 100,
+            //             child: Text(
+            //               items,
+            //             ),
+            //           ),
+            //         );
+            //       }).toList(),
+            //       onChanged: (String? newValue) {
+            //         setState(() {
+            //           _temp = newValue!;
+            //         });
+            //         _gender = _temp;
+            //         _updateValues();
+            //       },
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

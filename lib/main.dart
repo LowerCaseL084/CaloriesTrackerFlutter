@@ -13,19 +13,24 @@ class CaloriesApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Calorie Tracker',
-      theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
-      darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
-      home: const CaloriesHomePage(title: 'Home Page'),
-      initialRoute: '/',
-      routes: {
-        '/settings' :(context) => const CaloriesSettingsPage(title: "Settings"),
-        '/settings/user_settings' :(context) => const CaloriesUserSettingsPage(title: "User Settings"),
-        '/settings/goal_settings' :(context) => const CaloriesGoalSettingsPage(title: "Goal Settings"),
-        '/settings/allergies_list' :(context) => const CaloriesAllergiesListPage(title: "Allergies"),
-        '/settings/application_settings' :(context) => const CaloriesApplicationSettingsPage(title: "Application Settings"),
-      }
-    );
+        title: 'Calorie Tracker',
+        theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
+        darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
+        home: const CaloriesHomePage(title: 'Home Page'),
+        initialRoute: '/',
+        routes: {
+          '/settings': (context) =>
+              const CaloriesSettingsPage(title: "Settings"),
+          '/settings/user_settings': (context) =>
+              const CaloriesUserSettingsPage(title: "User Settings"),
+          '/settings/goal_settings': (context) =>
+              const CaloriesGoalSettingsPage(title: "Goal Settings"),
+          '/settings/allergies_list': (context) =>
+              const CaloriesAllergiesListPage(title: "Allergies"),
+          '/settings/application_settings': (context) =>
+              const CaloriesApplicationSettingsPage(
+                  title: "Application Settings"),
+        });
   }
 }
 
@@ -39,7 +44,6 @@ class CaloriesHomePage extends StatefulWidget {
 }
 
 class _CaloriesHomePageState extends State<CaloriesHomePage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,11 +66,63 @@ class _CaloriesHomePageState extends State<CaloriesHomePage> {
           ],
         ),
       ),
+      bottomNavigationBar: Container(
+        height: 80,
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
+        ),
+        child: Column(children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              IconButton(
+                enableFeedback: false,
+                onPressed: () {
+                  Navigator.pushNamed(context, '/settings');
+                },
+                icon: const Icon(
+                  Icons.settings_outlined,
+                  size: 40,
+                ),
+              ),
+              IconButton(
+                enableFeedback: false,
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.camera_alt_outlined,
+                  size: 40,
+                ),
+              ),
+              IconButton(
+                enableFeedback: false,
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.calendar_month,
+                  size: 40,
+                ),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text('Settings'),
+              Text('Camera'),
+              Text('Calender'),
+            ],
+          )
+        ]),
+      ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {Navigator.pushNamed(context, '/settings');},
+        onPressed: () {
+          Navigator.pushNamed(context, '/settings');
+        },
         tooltip: 'Settings',
         child: const Icon(Icons.add),
-      ), 
+      ),
     );
   }
 }
