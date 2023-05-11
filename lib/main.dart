@@ -92,47 +92,52 @@ class _CaloriesHomePageState extends State<CaloriesHomePage> {
             topRight: Radius.circular(20),
           ),
         ),
-        child: Column(children: [
-          Row(
+        child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              IconButton(
-                enableFeedback: false,
-                onPressed: () {
-                  Navigator.pushNamed(context, '/settings');
-                },
-                icon: const Icon(
-                  Icons.settings_outlined,
-                  size: 40,
-                ),
+              Column(
+                children: [
+                  IconButton(
+                    enableFeedback: false,
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/settings');
+                    },
+                    icon: const Icon(
+                      Icons.settings_outlined,
+                      size: 40,
+                    ),
+                  ),
+                  const Text('Settings'),
+                ],
               ),
-              IconButton(
-                enableFeedback: false,
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.camera_alt_outlined,
-                  size: 40,
-                ),
+              Column(
+                children: [
+                  IconButton(
+                    enableFeedback: false,
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.add,
+                      size: 40,
+                    ),
+                  ),
+                  const Text('Add entry'),
+                ],
               ),
-              IconButton(
-                enableFeedback: false,
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.calendar_month,
-                  size: 40,
-                ),
+              Column(
+                children: [
+                  IconButton(
+                    enableFeedback: false,
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.calendar_month,
+                      size: 40,
+                    ),
+                  ),
+                  const Text('Calendar'),
+                ],
               ),
             ],
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: const [
-              Text('Settings'),
-              Text('Camera'),
-              Text('Calender'),
-            ],
-          )
-        ]),
       ),
     );
   }
