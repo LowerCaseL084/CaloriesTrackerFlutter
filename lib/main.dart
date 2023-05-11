@@ -1,36 +1,54 @@
 import 'package:flutter/material.dart';
 import 'package:calories_tracker/colours.dart';
 import 'package:calories_tracker/settings.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
-void main() {
-  runApp(const CaloriesApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  String theme = (await SharedPreferences.getInstance()).getString('theme') ?? 'system';
+  ThemeMode themeMode = ThemeMode.system;
+  if(theme == 'light')
+  {
+    themeMode = ThemeMode.light;
+  }
+  else if(theme == 'dark')
+  {
+    themeMode = ThemeMode.dark;
+  }
+  runApp(ChangeNotifierProvider(create: (context) => ThemeChangeNotifier(theme: themeMode), child: const CaloriesApp()));
 }
 
 class CaloriesApp extends StatelessWidget {
   const CaloriesApp({super.key});
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Calorie Tracker',
-        theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
-        darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
-        home: const CaloriesHomePage(title: 'Home Page'),
-        initialRoute: '/',
-        routes: {
-          '/settings': (context) =>
-              const CaloriesSettingsPage(title: "Settings"),
-          '/settings/user_settings': (context) =>
-              const CaloriesUserSettingsPage(title: "User Settings"),
-          '/settings/goal_settings': (context) =>
-              const CaloriesGoalSettingsPage(title: "Goal Settings"),
-          '/settings/allergies_list': (context) =>
-              const CaloriesAllergiesListPage(title: "Allergies"),
-          '/settings/application_settings': (context) =>
-              const CaloriesApplicationSettingsPage(
-                  title: "Application Settings"),
-        });
+    return Consumer<ThemeChangeNotifier>(
+      builder:(context, value, child) {
+        return MaterialApp(
+          title: 'Calorie Tracker',
+          theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
+          darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
+          themeMode: value.theme,
+          home: const CaloriesHomePage(title: 'Home Page'),
+          initialRoute: '/',
+          routes: {
+            '/settings': (context) =>
+                const CaloriesSettingsPage(title: "Settings"),
+            '/settings/user_settings': (context) =>
+                const CaloriesUserSettingsPage(title: "User Settings"),
+            '/settings/goal_settings': (context) =>
+                const CaloriesGoalSettingsPage(title: "Goal Settings"),
+            '/settings/allergies_list': (context) =>
+                const CaloriesAllergiesListPage(title: "Allergies"),
+            '/settings/application_settings': (context) =>
+                const CaloriesApplicationSettingsPage(
+                    title: "Application Settings"),
+          }
+        );
+      },
+    );
   }
 }
 
@@ -74,47 +92,52 @@ class _CaloriesHomePageState extends State<CaloriesHomePage> {
             topRight: Radius.circular(20),
           ),
         ),
-        child: Column(children: [
-          Row(
+        child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              IconButton(
-                enableFeedback: false,
-                onPressed: () {
-                  Navigator.pushNamed(context, '/settings');
-                },
-                icon: const Icon(
-                  Icons.settings_outlined,
-                  size: 40,
-                ),
+              Column(
+                children: [
+                  IconButton(
+                    enableFeedback: false,
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/settings');
+                    },
+                    icon: const Icon(
+                      Icons.settings_outlined,
+                      size: 40,
+                    ),
+                  ),
+                  const Text('Settings'),
+                ],
               ),
-              IconButton(
-                enableFeedback: false,
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.camera_alt_outlined,
-                  size: 40,
-                ),
+              Column(
+                children: [
+                  IconButton(
+                    enableFeedback: false,
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.add,
+                      size: 40,
+                    ),
+                  ),
+                  const Text('Add entry'),
+                ],
               ),
-              IconButton(
-                enableFeedback: false,
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.calendar_month,
-                  size: 40,
-                ),
+              Column(
+                children: [
+                  IconButton(
+                    enableFeedback: false,
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.calendar_month,
+                      size: 40,
+                    ),
+                  ),
+                  const Text('Calendar'),
+                ],
               ),
             ],
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Text('Settings'),
-              Text('Camera'),
-              Text('Calender'),
-            ],
-          )
-        ]),
       ),
     );
   }
