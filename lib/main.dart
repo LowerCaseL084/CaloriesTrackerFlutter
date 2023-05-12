@@ -3,6 +3,8 @@ import 'package:calories_tracker/colours.dart';
 import 'package:calories_tracker/settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
+import 'package:calories_tracker/camera.dart';
+import 'package:camera/camera.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,6 +47,7 @@ class CaloriesApp extends StatelessWidget {
             '/settings/application_settings': (context) =>
                 const CaloriesApplicationSettingsPage(
                     title: "Application Settings"),
+            '/picture_taking': (context) => const TakePictureScreen(title: "Take Picture"),
           }
         );
       },
@@ -114,7 +117,39 @@ class _CaloriesHomePageState extends State<CaloriesHomePage> {
                 children: [
                   IconButton(
                     enableFeedback: false,
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/picture_taking');
+                    },
+                    /*onPressed: () async {
+                       try {
+                          // Ensure that the camera is initialized.
+                          WidgetsFlutterBinding.ensureInitialized();
+                          // Obtain a list of the available cameras on the device.
+                          final cameras = await availableCameras();
+
+                          // Get a specific camera from the list of available cameras.
+                          final firstCamera = cameras.first;
+
+                          if (!mounted) return;
+
+                          // If the picture was taken, display it on a new screen.
+                          await Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => TakePictureScreen(
+                                // Pass the automatically generated path to
+                                // the DisplayPictureScreen widget.
+                                title: "Take Picture",
+                                camera: firstCamera
+                              ),
+                            ),
+                          );
+                        }
+                        on CameraException catch (e) {
+                          // If an error occurs, log the error to the console.
+                          //Navigator.pop(context);
+                        }
+                      //Navigator.pushNamed(context, '/picture_taking');
+                    },*/
                     icon: const Icon(
                       Icons.add,
                       size: 40,
