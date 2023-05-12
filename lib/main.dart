@@ -1,3 +1,4 @@
+import 'package:calories_tracker/calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:calories_tracker/colours.dart';
 import 'package:calories_tracker/settings.dart';
@@ -47,6 +48,9 @@ class CaloriesApp extends StatelessWidget {
               '/settings/application_settings': (context) =>
                   const CaloriesApplicationSettingsPage(
                       title: "Application Settings"),
+              '/calendar': (context) =>
+                  const CalendarSettingsPage(title: "Calendar"),
+
             });
       },
     );
@@ -128,7 +132,13 @@ class _CaloriesHomePageState extends State<CaloriesHomePage> {
               children: [
                 IconButton(
                   enableFeedback: false,
+
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/calendar');
+                  },
+
                   onPressed: () {},
+
                   icon: const Icon(
                     Icons.calendar_month,
                     size: 40,
