@@ -50,6 +50,7 @@ class CaloriesApp extends StatelessWidget {
                       title: "Application Settings"),
               '/calendar': (context) =>
                   const CalendarSettingsPage(title: "Calendar"),
+
             });
       },
     );
@@ -131,9 +132,13 @@ class _CaloriesHomePageState extends State<CaloriesHomePage> {
               children: [
                 IconButton(
                   enableFeedback: false,
+
                   onPressed: () {
                     Navigator.pushNamed(context, '/calendar');
                   },
+
+                  onPressed: () {},
+
                   icon: const Icon(
                     Icons.calendar_month,
                     size: 40,
