@@ -73,10 +73,10 @@ class _CaloriesHomePageState extends State<CaloriesHomePage> {
         title: Text(widget.title),
         //backgroundColor: ThemeColoursDefault.APP_BAR_COLOUR,
       ),
-      body: Center(
+      body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
+          children: <Widget>[
             Text(
               'Today\'s Goal:',
               style: TextStyle(
