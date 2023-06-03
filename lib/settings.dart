@@ -18,7 +18,7 @@ mixin InputDialog {
         return AlertDialog(
           content: TextField(
             controller: controller,
-            decoration: const InputDecoration(hintText: "Enter name:"),
+            decoration: InputDecoration(hintText: title),
           ),
           actions: <Widget>[
             TextButton(
