@@ -17,3 +17,9 @@ enum CaloriesAllergy {
   final String preferenceKey;
   final String text;
 }
+
+enum Gender {
+  none,
+  male,
+  female,
+}

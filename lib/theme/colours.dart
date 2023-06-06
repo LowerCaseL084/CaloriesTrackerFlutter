@@ -67,13 +67,3 @@ const darkColorScheme = ColorScheme(
   outlineVariant: Color(0xFF46464F),
   scrim: Color(0xFF000000),
 );
-
-class ThemeChangeNotifier with ChangeNotifier {
-  ThemeChangeNotifier({required this.theme});
-  ThemeMode theme;
-  void changeTheme(String theme)
-  {
-    this.theme =  theme=='light'?ThemeMode.light:(theme == 'dark'?ThemeMode.dark:ThemeMode.system);
-    notifyListeners();
-  }
-}
