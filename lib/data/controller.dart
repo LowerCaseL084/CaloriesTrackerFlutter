@@ -11,7 +11,7 @@ enum WriteStatus {
 
 String fileName = "my_file.txt";
 String fileContent = "";
-String newContent = "to be read";
+String newContent = "";
 
 final dataStateProvider =
     NotifierProvider.autoDispose<DataNotifier, WriteStatus>(() {
@@ -30,7 +30,13 @@ class DataNotifier extends AutoDisposeNotifier<WriteStatus> {
   Future<File> writeFile() async {
     Directory directory = await getApplicationDocumentsDirectory();
     String filePath = '${directory.path}/$fileName';
-    return File(filePath).writeAsString(fileContent);
+    File file = File(filePath);
+    bool exists = await file.exists();
+    if (exists) {
+      return File(filePath).writeAsString(newContent, mode: FileMode.append);
+    } else {
+      return File(filePath).writeAsString(fileContent);
+    }
   }
 
   Future<String> readFile() async {
@@ -42,12 +48,12 @@ class DataNotifier extends AutoDisposeNotifier<WriteStatus> {
     if (exists) {
       return file.readAsString();
     } else {
-      return "File not found!";
+      File(filePath).writeAsString(fileContent);
+      return "";
     }
   }
 
-  Future<void> write(BuildContext context, String fileContent) async {
-    fileContent = fileContent + newContent;
+  Future<void> write(BuildContext context) async {
     writeFile().then((file) {
       // File was successfully written
       state = WriteStatus.appended;
@@ -66,10 +72,6 @@ class DataNotifier extends AutoDisposeNotifier<WriteStatus> {
     }).catchError((error) {
       print("Error reading file: $error");
     });
-  }
-
-  Future<void> resetStatus() async {
-    state = WriteStatus.stable;
   }
 }
 

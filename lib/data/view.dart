@@ -13,7 +13,6 @@ class DataPage extends ConsumerStatefulWidget {
 class _DataPageState extends ConsumerState<DataPage> {
   final TextEditingController foodItemController = TextEditingController();
   final TextEditingController caloriesController = TextEditingController();
-  String error = "";
 
   @override
   Widget build(BuildContext context) {
@@ -43,22 +42,11 @@ class _DataPageState extends ConsumerState<DataPage> {
             const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
+                newContent =
+                    '${foodItemController.text}${caloriesController.text}  ';
                 ref.read(dataStateProvider.notifier).read(context);
-                if (state == WriteStatus.read) {
-                  fileContent = fileContent +
-                      foodItemController.text +
-                      caloriesController.text +
-                      "__";
-
-                  setState(() {
-                    error = "Written succesfully";
-                  });
-                }
-                ref.read(dataStateProvider.notifier).resetStatus();
-                ref
-                    .read(dataStateProvider.notifier)
-                    .write(context, fileContent);
-                ref.read(dataStateProvider.notifier).resetStatus();
+                ref.read(dataStateProvider.notifier).write(context);
+                ref.read(dataStateProvider.notifier).read(context);
               },
               child: const Text('Add'),
             ),
@@ -67,14 +55,7 @@ class _DataPageState extends ConsumerState<DataPage> {
               'File Content:',
             ),
             Text(fileContent),
-            Container(
-              child: Row(
-                children: [
-                  Text("Status: "),
-                  Text(error),
-                ],
-              ),
-            )
+            const SizedBox(height: 20),
           ],
         ),
       ),
