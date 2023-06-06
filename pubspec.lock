@@ -18,7 +18,7 @@ packages:
     source: hosted
     version: "2.1.1"
   camera:
-    dependency: "direct main"
+    dependency: "direct overridden"
     description:
       name: camera
       sha256: "309b823e61f15ff6b5b2e4c0ff2e1512ea661cad5355f71fc581e510ae5b26bb"
@@ -90,7 +90,7 @@ packages:
     source: hosted
     version: "0.3.3+4"
   cupertino_icons:
-    dependency: "direct main"
+    dependency: "direct overridden"
     description:
       name: cupertino_icons
       sha256: e35129dc44c9118cee2a5603506d823bab99c68393879edb440e0090d07586be
@@ -177,7 +177,7 @@ packages:
     source: hosted
     version: "4.0.2"
   image_picker:
-    dependency: "direct main"
+    dependency: "direct overridden"
     description:
       name: image_picker
       sha256: "9978d3510af4e6a902e545ce19229b926e6de6a1828d6134d3aab2e129a4d270"
@@ -273,7 +273,7 @@ packages:
     source: hosted
     version: "1.8.3"
   path_provider:
-    dependency: "direct main"
+    dependency: "direct overridden"
     description:
       name: path_provider
       sha256: "3087813781ab814e4157b172f1a11c46be20179fcc9bea043e0fba36bc0acaa2"
@@ -344,6 +344,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.2.4"
+  provider:
+    dependency: "direct main"
+    description:
+      name: provider
+      sha256: cdbe7530b12ecd9eb455bdaa2fcb8d4dad22e80b8afb4798b41479d5ce26847f
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.0.5"
   quiver:
     dependency: transitive
     description:
@@ -361,7 +369,7 @@ packages:
     source: hosted
     version: "2.3.6"
   settings_ui:
-    dependency: "direct main"
+    dependency: "direct overridden"
     description:
       name: settings_ui
       sha256: d9838037cb554b24b4218b2d07666fbada3478882edefae375ee892b6c820ef3
@@ -369,7 +377,7 @@ packages:
     source: hosted
     version: "2.0.2"
   shared_preferences:
-    dependency: "direct main"
+    dependency: "direct overridden"
     description:
       name: shared_preferences
       sha256: "16d3fb6b3692ad244a695c0183fca18cf81fd4b821664394a781de42386bf022"
@@ -486,7 +494,7 @@ packages:
     source: hosted
     version: "1.2.0"
   table_calendar:
-    dependency: "direct main"
+    dependency: "direct overridden"
     description:
       name: table_calendar
       sha256: "1e3521a3e6d3fc7f645a58b135ab663d458ab12504f1ea7f9b4b81d47086c478"

@@ -5,6 +5,7 @@ import 'package:calories_tracker/calendar.dart';
 import 'package:calories_tracker/theme/colours.dart';
 import 'package:calories_tracker/theme/theme_change_provider.dart';
 import 'package:calories_tracker/camera.dart';
+
 import 'package:calories_tracker/home_page/home_page_view.dart';
 import 'package:calories_tracker/home_page/splash_screen_view.dart';
 
@@ -13,6 +14,7 @@ import 'package:calories_tracker/settings/view/user_settings.dart';
 import 'package:calories_tracker/settings/view/goal_settings.dart';
 import 'package:calories_tracker/settings/view/application_settings.dart';
 import 'package:calories_tracker/settings/view/allergies_settings.dart';
+
 
 Future<void> main() async {
   runApp(const ProviderScope(child: CaloriesApp()));
