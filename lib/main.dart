@@ -180,7 +180,7 @@ class _CaloriesHomePageState extends State<CaloriesHomePage> {
             ),
           ],
         ),
-      ),
+      ), 
     );
   }
 }
