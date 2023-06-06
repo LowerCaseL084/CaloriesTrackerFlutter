@@ -2,13 +2,12 @@ import 'package:calories_tracker/calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:calories_tracker/colours.dart';
 import 'package:calories_tracker/settings.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:calories_tracker/camera.dart';
 import 'package:camera/camera.dart';
-import 'dart:io';
-import 'package:path_provider/path_provider.dart';
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -72,29 +71,6 @@ class CaloriesHomePage extends StatefulWidget {
 }
 
 class _CaloriesHomePageState extends State<CaloriesHomePage> {
-  //File Read-Write
-  String fileName = "my_file.txt";
-  String fileContent = "";
-  String newContent = "file gets overwritten so append content, ";
-
-  Future<File> writeFile() async {
-    Directory directory = await getApplicationDocumentsDirectory();
-    String filePath = '${directory.path}/$fileName';
-    return File(filePath).writeAsString(fileContent);
-  }
-
-  Future<String> readFile() async {
-    Directory directory = await getApplicationDocumentsDirectory();
-    String filePath = '${directory.path}/$fileName';
-    File file = File(filePath);
-    bool exists = await file.exists();
-
-    if (exists) {
-      return file.readAsString();
-    } else {
-      return "File not found!";
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,51 +80,17 @@ class _CaloriesHomePageState extends State<CaloriesHomePage> {
         title: Text(widget.title),
         //backgroundColor: ThemeColoursDefault.APP_BAR_COLOUR,
       ),
-      body: Center(
+      body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            // Text(
-            //   'Today\'s Goal:',
-            //   style: TextStyle(
-            //     fontSize: 25.0,
-            //     //color: ThemeColoursDefault.TEXT_COLOUR,
-            //   ),
-            // ),
-            ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  fileContent = fileContent + newContent;
-                });
-                writeFile().then((file) {
-                  // File was successfully written
-                  print("File written: ${file.path}");
-                }).catchError((error) {
-                  // An error occurred while writing the file
-                  print("Error writing file: $error");
-                });
-              },
-              child: Text('Write File'),
+            Text(
+              'Today\'s Goal:',
+              style: TextStyle(
+                fontSize: 25.0,
+                //color: ThemeColoursDefault.TEXT_COLOUR,
+              ),
             ),
-
-            // ElevatedButton(                   //Readfunction implementation
-            //   onPressed: () {
-            //     readFile().then((content) {
-            //       setState(() {
-            //         fileContent = content;
-            //       });
-            //       print("File content: $content");
-            //     }).catchError((error) {
-            //       print("Error reading file: $error");
-            //     });
-            //   },
-            //   child: Text('Read File'),
-            // ),
-            const SizedBox(height: 20),
-            const Text(
-              'File Content:',
-            ),
-            Text(fileContent),
           ],
         ),
       ),
