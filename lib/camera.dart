@@ -14,34 +14,30 @@ class TakePictureScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => TakePictureScreenState();
 }
-  
+
 class TakePictureScreenState extends State<TakePictureScreen> {
   late File cameraFile;
   late Future<void> _gotPicture;
 
   @override
-  void initState()
-  {
+  void initState() {
     super.initState();
     _gotPicture = selectFromCamera();
   }
 
   Future<void> selectFromCamera() async {
-      final picker = ImagePicker();
-      try
-      {
-        final cameraFile=await picker.pickImage(
-          source: ImageSource.camera,
-          maxHeight: 1024,
-          maxWidth: 1024,
-        );
-        this.cameraFile = File(cameraFile!.path);
-      }
-      on PlatformException
-      {
-        Navigator.pop(context);
-      }
+    final picker = ImagePicker();
+    try {
+      final cameraFile = await picker.pickImage(
+        source: ImageSource.camera,
+        maxHeight: 1024,
+        maxWidth: 1024,
+      );
+      this.cameraFile = File(cameraFile!.path);
+    } on PlatformException {
+      Navigator.pop(context);
     }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,71 +45,66 @@ class TakePictureScreenState extends State<TakePictureScreen> {
       appBar: AppBar(title: Text(widget.title)),
       // The image is stored as a file on the device. Use the `Image.file`
       // constructor with the given path to display the image.
-      body: FutureBuilder<void> (
-        future: _gotPicture,
-        builder: (context, snapshot) {
-          if(snapshot.connectionState == ConnectionState.done)
-          {
-            try
-            {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget> [
-                  SizedBox(
-                    height: 500,
-                    child: SingleChildScrollView(
-                      child: Image.file(cameraFile),
+      body: FutureBuilder<void>(
+          future: _gotPicture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              try {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    SizedBox(
+                      height: 500,
+                      child: SingleChildScrollView(
+                        child: Image.file(cameraFile),
+                      ),
                     ),
-                  ),
-                  Row (
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget> [
-                      MaterialButton(
-                        child: const Text("Back"),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                      MaterialButton(
-                        child: const Text("Proceed"),
-                        onPressed: () {},
-                      ),
-                    ],
-                  )
-                ],
-              );
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        MaterialButton(
+                          child: const Text("Back"),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        MaterialButton(
+                          child: const Text("Proceed"),
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/data/data_view');
+                          },
+                        ),
+                      ],
+                    )
+                  ],
+                );
+              } catch (e) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    const Text("Picture not taken. Proceed with manual entry?"),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        MaterialButton(
+                          child: const Text("Back"),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        MaterialButton(
+                          child: const Text("Proceed"),
+                          onPressed: () {},
+                        ),
+                      ],
+                    )
+                  ],
+                );
+              }
+            } else {
+              return const Center(child: CircularProgressIndicator());
             }
-            catch (e)
-            {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  const Text("Picture not taken. Proceed with manual entry?"),
-                  Row (
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget> [
-                      MaterialButton(
-                        child: const Text("Back"),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                      MaterialButton(
-                        child: const Text("Proceed"),
-                        onPressed: () {},
-                      ),
-                    ],
-                  )
-                ],
-              );
-            }
-          }
-          else
-          {
-            return const Center(child: CircularProgressIndicator());
-          }
-        }
-      ),
+          }),
     );
   }
 }
