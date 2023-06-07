@@ -28,8 +28,13 @@ class CaloriesApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var asyncTheme = ref.watch(themeChangeNotifierProvider);
     return asyncTheme.when(
-        loading: () =>
-            const MaterialApp(title: 'Calorie Tracker', home: SplashScreen()),
+        loading: () => MaterialApp(
+            theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
+            darkTheme:
+                ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
+            themeMode: ThemeMode.system,
+            title: 'Calorie Tracker',
+            home: const SplashScreen()),
         error: (error, stackTrace) {
           return const Text("Error loading preferences!");
         },
