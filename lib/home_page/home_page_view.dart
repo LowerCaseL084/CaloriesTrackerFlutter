@@ -18,10 +18,10 @@ class _CaloriesHomePageState extends State<CaloriesHomePage> {
         title: Text(widget.title),
         //backgroundColor: ThemeColoursDefault.APP_BAR_COLOUR,
       ),
-      body: const Center(
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
+          children: const <Widget>[
             Text(
               'Today\'s Goal:',
               style: TextStyle(
@@ -63,8 +63,8 @@ class _CaloriesHomePageState extends State<CaloriesHomePage> {
                 IconButton(
                   enableFeedback: false,
                   onPressed: () {
-                      Navigator.pushNamed(context, '/picture_taking');
-                    },
+                    Navigator.pushNamed(context, '/picture_taking');
+                  },
                   icon: const Icon(
                     Icons.add,
                     size: 40,
@@ -90,7 +90,7 @@ class _CaloriesHomePageState extends State<CaloriesHomePage> {
             ),
           ],
         ),
-      ), 
+      ),
     );
   }
 }
