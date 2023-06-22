@@ -4,7 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:calories_tracker/calendar.dart';
 import 'package:calories_tracker/theme/colours.dart';
 import 'package:calories_tracker/theme/theme_change_provider.dart';
-import 'package:calories_tracker/camera.dart';
+import 'package:calories_tracker/camera/view/camera.dart';
+import 'package:calories_tracker/camera/view/masked.dart';
 
 import 'package:calories_tracker/home_page/home_page_view.dart';
 import 'package:calories_tracker/home_page/splash_screen_view.dart';
@@ -64,6 +65,8 @@ class CaloriesApp extends ConsumerWidget {
                     const CalendarSettingsPage(title: "Calendar"),
                 '/picture_taking': (context) =>
                     const TakePictureScreen(title: "Take Picture"),
+                '/picture_taking/mask': (context) =>
+                    const MaskedPictureScreen(title: "Picture"),
                 '/data/data_view': (context) => DataPage(title: "History"),
               });
         });

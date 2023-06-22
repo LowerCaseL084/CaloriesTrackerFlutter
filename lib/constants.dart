@@ -23,3 +23,5 @@ enum Gender {
   male,
   female,
 }
+
+const String apiUrl = 'http://10.0.2.2:50891/';
