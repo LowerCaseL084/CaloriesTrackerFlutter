@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:calories_tracker/data/controller.dart';
 
-class CaloriesHomePage extends StatefulWidget {
+class CaloriesHomePage extends ConsumerStatefulWidget {
   const CaloriesHomePage({super.key, required this.title});
 
   final String title;
 
   @override
-  State<CaloriesHomePage> createState() => _CaloriesHomePageState();
+  ConsumerState<CaloriesHomePage> createState() => _CaloriesHomePageState();
 }
 
-class _CaloriesHomePageState extends State<CaloriesHomePage> {
+class _CaloriesHomePageState extends ConsumerState<CaloriesHomePage> {
   @override
   Widget build(BuildContext context) {
+    var asyncText = ref.watch(dataStateProvider);
     return Scaffold(
       //backgroundColor: ThemeColoursDefault.BACKGROUND_COLOUR,
       appBar: AppBar(
@@ -21,13 +24,17 @@ class _CaloriesHomePageState extends State<CaloriesHomePage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
-            Text(
-              'Today\'s Goal:',
-              style: TextStyle(
-                fontSize: 25.0,
-                //color: ThemeColoursDefault.TEXT_COLOUR,
-              ),
+          children: <Widget>[
+            asyncText.when(
+              loading: () => const CircularProgressIndicator(),
+              error: (err, stack) => Text(err.toString()),
+              data: (text) => Text(
+                  'Today\'s Goal:\n$text',
+                  style: const TextStyle(
+                    fontSize: 25.0,
+                    //color: ThemeColoursDefault.TEXT_COLOUR,
+                  ),
+                ),
             ),
           ],
         ),

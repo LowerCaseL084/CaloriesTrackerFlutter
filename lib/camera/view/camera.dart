@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:calories_tracker/camera/controller/camera.dart';
+// ignore: depend_on_referenced_packages
 import 'package:cross_file/cross_file.dart';
 
 class TakePictureScreen extends ConsumerStatefulWidget {
@@ -96,19 +97,29 @@ class TakePictureScreenState extends ConsumerState<TakePictureScreen>
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         const Text("Take a picture!"),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            MaterialButton(
-              child: const Icon(Icons.camera_alt),
-              onPressed: () {
-                ref.read(imageProvider.notifier).selectImage(fromGallery: false);
-              },
+        Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                MaterialButton(
+                  child: const Icon(Icons.camera_alt),
+                  onPressed: () {
+                    ref.read(imageProvider.notifier).selectImage(fromGallery: false);
+                  },
+                ),
+                MaterialButton(
+                  child: const Icon(Icons.photo_album),
+                  onPressed: () {
+                    ref.read(imageProvider.notifier).selectImage(fromGallery: true);
+                  },
+                ),
+              ],
             ),
             MaterialButton(
-              child: const Icon(Icons.photo_album),
+              child: const Text("Proceed with manual entry.\n"),
               onPressed: () {
-                ref.read(imageProvider.notifier).selectImage(fromGallery: true);
+                Navigator.pushNamed(context, '/data/data_view');
               },
             ),
           ],

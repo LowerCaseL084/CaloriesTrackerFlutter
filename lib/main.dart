@@ -67,7 +67,7 @@ class CaloriesApp extends ConsumerWidget {
                     const TakePictureScreen(title: "Take Picture"),
                 '/picture_taking/mask': (context) =>
                     const MaskedPictureScreen(title: "Picture"),
-                '/data/data_view': (context) => DataPage(title: "History"),
+                '/data/data_view': (context) => const DataPage(title: "Enter data"),
               });
         });
   }

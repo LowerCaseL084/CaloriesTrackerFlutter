@@ -1,6 +1,4 @@
 //import 'package:camera/camera.dart';
-import 'package:flutter/services.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:calories_tracker/camera/controller/camera.dart';
 import 'package:calories_tracker/camera/model/mask.dart';

@@ -29,18 +29,16 @@ class _CalendarState extends State<CalendarSettingsPage> {
   Widget content() {
     return Column(
       children: [
-        Container(
-          child: TableCalendar(
-            rowHeight: 43,
-            headerStyle:
-                HeaderStyle(formatButtonVisible: false, titleCentered: true),
-            availableGestures: AvailableGestures.all,
-            selectedDayPredicate: (day) => isSameDay(day, today),
-            focusedDay: today,
-            firstDay: DateTime.utc(2010, 1, 1),
-            lastDay: DateTime(2030, 12, 31),
-            onDaySelected: _onDaySelected,
-          ),
+        TableCalendar(
+          rowHeight: 43,
+          headerStyle:
+              const HeaderStyle(formatButtonVisible: false, titleCentered: true),
+          availableGestures: AvailableGestures.all,
+          selectedDayPredicate: (day) => isSameDay(day, today),
+          focusedDay: today,
+          firstDay: DateTime.utc(2010, 1, 1),
+          lastDay: DateTime(2030, 12, 31),
+          onDaySelected: _onDaySelected,
         )
       ],
     );
