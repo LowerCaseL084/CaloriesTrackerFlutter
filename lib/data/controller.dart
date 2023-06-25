@@ -31,7 +31,7 @@ class DataNotifier extends AutoDisposeAsyncNotifier<String> {
     String newContent = "";
     for(var i in entries)
     {
-      newContent += "${DateTime.now()}|${i.nameController.text}|${i.caloriesController.text}\n";
+      newContent += "${DateTime.now().toIso8601String()}\t${i.nameController.text}\t${i.caloriesController.text}\n";
     }
     return (await file.writeAsString(newContent, mode: FileMode.writeOnlyAppend)).readAsString();
   }

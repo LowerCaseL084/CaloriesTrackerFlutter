@@ -12,7 +12,9 @@ class CaloriesAppSettings {
       required this.manualInputMode,
       required this.theme,
       required this.targetWeight,
+      required this.targetCalories,
       required this.isRecommendedSettings,
+      required this.isCaloriesLessThan,
       required this.allergies});
 
   late String userName;
@@ -23,6 +25,8 @@ class CaloriesAppSettings {
   late bool manualInputMode;
   late ThemeMode theme;
   late int targetWeight;
+  late double targetCalories;
+  late bool isCaloriesLessThan;
   late bool isRecommendedSettings;
   late Map<CaloriesAllergy, bool> allergies;
 
@@ -35,6 +39,8 @@ class CaloriesAppSettings {
     bool manualInputMode;
     ThemeMode theme;
     int targetWeight;
+    double targetCalories;
+    bool isCaloriesLessThan;
     bool isRecommendedSettings;
     Map<CaloriesAllergy, bool> allergies = {};
 
@@ -60,7 +66,9 @@ class CaloriesAppSettings {
         : (strgender == 'female' ? Gender.female : Gender.none);
 
     isRecommendedSettings = (prefs.getBool('recommended_settings') ?? true);
+    isCaloriesLessThan = (prefs.getBool('calories_less_than') ?? true);
     targetWeight = (prefs.getInt('target_weight') ?? 0);
+    targetCalories = (prefs.getDouble('target_calories') ?? 0.0);
 
     return CaloriesAppSettings(
         userName: userName,
@@ -71,6 +79,8 @@ class CaloriesAppSettings {
         manualInputMode: manualInputMode,
         theme: theme,
         targetWeight: targetWeight,
+        targetCalories: targetCalories,
+        isCaloriesLessThan: isCaloriesLessThan,
         isRecommendedSettings: isRecommendedSettings,
         allergies: allergies);
   }
@@ -96,7 +106,9 @@ class CaloriesAppSettings {
     await prefs.setString('gender', strgender);
 
     await prefs.setBool('recommended_settings', isRecommendedSettings);
+    await prefs.setBool('calories_less_than', isCaloriesLessThan);
     await prefs.setInt('target_weight', targetWeight);
+    await prefs.setDouble('target_calories', targetCalories);
 
     for (var i in CaloriesAllergy.values) {
       await prefs.setBool(i.preferenceKey, allergies[i] ?? false);

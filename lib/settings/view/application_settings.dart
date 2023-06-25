@@ -20,7 +20,7 @@ class _CaloriesApplicationSettingsPageState
   bool cleared = false;
   @override
   Widget build(BuildContext context) {
-    var asyncSettings = ref.watch(settingsProvider);
+    var asyncSettings = ref.watch(settingsNotifier);
     ref.watch(dataStateProvider);
     return Scaffold(
       appBar: AppBar(

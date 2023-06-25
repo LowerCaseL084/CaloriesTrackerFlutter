@@ -29,46 +29,47 @@ class CaloriesApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var asyncTheme = ref.watch(themeChangeNotifierProvider);
     return asyncTheme.when(
-        loading: () => MaterialApp(
-            theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
+      loading: () => MaterialApp(
+          theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
+          darkTheme:
+              ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
+          themeMode: ThemeMode.system,
+          title: 'Calorie Tracker',
+          home: const SplashScreen()),
+      error: (error, stackTrace) {
+        return const Text("Error loading preferences!");
+      },
+      data: (theme) {
+        return MaterialApp(
+            title: 'Calorie Tracker',
+            theme:
+                ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
             darkTheme:
                 ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
-            themeMode: ThemeMode.system,
-            title: 'Calorie Tracker',
-            home: const SplashScreen()),
-        error: (error, stackTrace) {
-          return const Text("Error loading preferences!");
-        },
-        data: (theme) {
-          return MaterialApp(
-              title: 'Calorie Tracker',
-              theme:
-                  ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
-              darkTheme:
-                  ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
-              themeMode: theme,
-              home: const CaloriesHomePage(title: 'Home Page'),
-              initialRoute: '/',
-              routes: {
-                '/settings': (context) =>
-                    const CaloriesSettingsPage(title: "Settings"),
-                '/settings/user_settings': (context) =>
-                    const CaloriesUserSettingsPage(title: "User Settings"),
-                '/settings/goal_settings': (context) =>
-                    const CaloriesGoalSettingsPage(title: "Goal Settings"),
-                '/settings/allergies_list': (context) =>
-                    const CaloriesAllergiesListPage(title: "Allergies"),
-                '/settings/application_settings': (context) =>
-                    const CaloriesApplicationSettingsPage(
-                        title: "Application Settings"),
-                '/calendar': (context) =>
-                    const CalendarSettingsPage(title: "Calendar"),
-                '/picture_taking': (context) =>
-                    const TakePictureScreen(title: "Take Picture"),
-                '/picture_taking/mask': (context) =>
-                    const MaskedPictureScreen(title: "Picture"),
-                '/data/data_view': (context) => const DataPage(title: "Enter data"),
-              });
-        });
+            themeMode: theme,
+            home: const CaloriesHomePage(title: 'Home Page'),
+            initialRoute: '/',
+            routes: {
+              '/settings': (context) =>
+                  const CaloriesSettingsPage(title: "Settings"),
+              '/settings/user_settings': (context) =>
+                  const CaloriesUserSettingsPage(title: "User Settings"),
+              '/settings/goal_settings': (context) =>
+                  const CaloriesGoalSettingsPage(title: "Goal Settings"),
+              '/settings/allergies_list': (context) =>
+                  const CaloriesAllergiesListPage(title: "Allergies"),
+              '/settings/application_settings': (context) =>
+                  const CaloriesApplicationSettingsPage(
+                      title: "Application Settings"),
+              '/calendar': (context) =>
+                  const CalendarSettingsPage(title: "Calendar"),
+              '/picture_taking': (context) =>
+                  const TakePictureScreen(title: "Take Picture"),
+              '/picture_taking/mask': (context) =>
+                  const MaskedPictureScreen(title: "Picture"),
+              '/data/data_view': (context) => const DataPage(title: "Enter data"),
+            });
+      }
+    );
   }
 }

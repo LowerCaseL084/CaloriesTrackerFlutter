@@ -26,7 +26,7 @@ class _CaloriesUserSettingsPageState extends State<CaloriesUserSettingsPage> {*/
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var asyncSettings = ref.watch(settingsProvider);
+    var asyncSettings = ref.watch(settingsNotifier);
     return Scaffold(
       appBar: AppBar(
         title: Text(title),

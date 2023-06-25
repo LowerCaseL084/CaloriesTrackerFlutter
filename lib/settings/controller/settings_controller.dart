@@ -4,21 +4,16 @@ import 'package:calories_tracker/settings/model/settings_model.dart';
 import 'package:calories_tracker/constants.dart';
 
 final settingsNotifier =
-    AsyncNotifierProvider<SettingsNotifier, CaloriesAppSettings>(() {
+    AsyncNotifierProvider.autoDispose<SettingsNotifier, CaloriesAppSettings>(() {
   return SettingsNotifier();
 });
 
-final settingsProvider =
-    Provider.autoDispose<AsyncValue<CaloriesAppSettings>>((ref) {
-  ref.onDispose(() {
-    ref.read(settingsNotifier.notifier).saveSettings();
-  });
-  return ref.watch(settingsNotifier);
-});
-
-class SettingsNotifier extends AsyncNotifier<CaloriesAppSettings> {
+class SettingsNotifier extends AutoDisposeAsyncNotifier<CaloriesAppSettings> {
   @override
   Future<CaloriesAppSettings> build() {
+    ref.onDispose(() {
+      saveSettings();
+    });
     return CaloriesAppSettings.loadSettings();
   }
 
@@ -31,7 +26,9 @@ class SettingsNotifier extends AsyncNotifier<CaloriesAppSettings> {
       bool? manualInputMode,
       ThemeMode? theme,
       int? targetWeight,
+      double? targetCalories,
       bool? isRecommendedSettings,
+      bool? isCaloriesLessThan,
       Map<CaloriesAllergy, bool>? allergies}) async {
     state.whenData((val) {
       state = AsyncValue.data(CaloriesAppSettings(
@@ -43,11 +40,14 @@ class SettingsNotifier extends AsyncNotifier<CaloriesAppSettings> {
         manualInputMode: manualInputMode ?? val.manualInputMode,
         theme: theme ?? val.theme,
         targetWeight: targetWeight ?? val.targetWeight,
+        targetCalories: targetCalories ?? val.targetCalories,
         isRecommendedSettings:
             isRecommendedSettings ?? val.isRecommendedSettings,
+        isCaloriesLessThan: isCaloriesLessThan ?? val.isCaloriesLessThan,
         allergies: allergies ?? val.allergies,
       ));
     });
+    saveSettings();
   }
 
   Future<void> saveSettings() async {
