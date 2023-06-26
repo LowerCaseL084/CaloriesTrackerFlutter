@@ -47,7 +47,7 @@ class MasksNotifier extends AutoDisposeAsyncNotifier<Mask?>
   @override
   Future<Mask?> build() async
   {
-    getMasks();
+    await getMasks();
     return future;
   }
 
@@ -83,11 +83,15 @@ class MasksNotifier extends AutoDisposeAsyncNotifier<Mask?>
           catch(e)
           {
             developer.log('API exception', name: "picture_sending", error: e.toString());
+            state = const AsyncData(null);
           }
+        }
+        else
+        {
+          state = const AsyncData(null);
         }
       }
     );
-    state = const AsyncData(null);
   }
 
   Image? boolListToImage(Uint8List? bytes, int width, int height)

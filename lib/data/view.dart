@@ -16,69 +16,69 @@ class _DataPageState extends ConsumerState<DataPage> {
   @override
   Widget build(BuildContext context) {
     final asyncEntries = ref.watch(foodEntriesProvider);
-    return asyncEntries.when(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: asyncEntries.when(
       error: (err, stack) => Center(child: Text(err.toString())),
       loading: () => const Center(child: CircularProgressIndicator()),
       data: (entries) {
-        return Scaffold(
-          appBar: AppBar(
-            title: Text(widget.title),
+        return Padding(
+          padding: const EdgeInsets.only(
+            left: 10,
+            right: 10,
+            top: 25,
+            bottom: 25,
           ),
-          body: Padding(
-            padding: const EdgeInsets.only(
-              left: 10,
-              right: 10,
-              top: 25,
-              bottom: 25,
-            ),
-            child: ListView(
-              children: <Widget>[
-                //const SizedBox(height: 60),
-                for(var i in entries)
-                  for(var j in drawEntry(context, i))
-                    j,
-                const SizedBox(height: 10),
+          child: ListView(
+            children: <Widget>[
+              //const SizedBox(height: 60),
+              for(var i in entries)
+                for(var j in drawEntry(context, i))
+                  j,
+              const SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: () {
+                  ref.read(foodEntriesProvider.notifier).addEntry();
+                  /*newContent =
+                      '${foodItemController.text}${caloriesController.text}  ';
+                  ref.read(dataStateProvider.notifier).read(context);
+                  ref.read(dataStateProvider.notifier).write(context);
+                  ref.read(dataStateProvider.notifier).read(context);*/
+                },
+                child: const Text('Add'),
+              ),
+              if(entries.isNotEmpty)
                 ElevatedButton(
                   onPressed: () {
-                    ref.read(foodEntriesProvider.notifier).addEntry();
+                    ref.read(foodEntriesProvider.notifier).deleteLastEntry();
                     /*newContent =
                         '${foodItemController.text}${caloriesController.text}  ';
                     ref.read(dataStateProvider.notifier).read(context);
                     ref.read(dataStateProvider.notifier).write(context);
                     ref.read(dataStateProvider.notifier).read(context);*/
                   },
-                  child: const Text('Add'),
+                  child: const Text('Remove'),
                 ),
-                if(entries.isNotEmpty)
-                  ElevatedButton(
-                    onPressed: () {
-                      ref.read(foodEntriesProvider.notifier).deleteLastEntry();
-                      /*newContent =
-                          '${foodItemController.text}${caloriesController.text}  ';
-                      ref.read(dataStateProvider.notifier).read(context);
-                      ref.read(dataStateProvider.notifier).write(context);
-                      ref.read(dataStateProvider.notifier).read(context);*/
-                    },
-                    child: const Text('Remove'),
-                  ),
-                ElevatedButton(
-                  onPressed: () {
-                    enter(context, entries);
-                    Navigator.popUntil(context, ModalRoute.withName('/'));
-                  },
-                  child: const Text('Enter'),
-                ),
-                const SizedBox(height: 20),
-                /*const Text(
-                  'File Content:',
-                ),
-                Text(fileContent),
-                const SizedBox(height: 20),*/
-              ],
-            ),
+              ElevatedButton(
+                onPressed: () {
+                  enter(context, entries);
+                  Navigator.popUntil(context, ModalRoute.withName('/'));
+                },
+                child: const Text('Enter'),
+              ),
+              const SizedBox(height: 20),
+              /*const Text(
+                'File Content:',
+              ),
+              Text(fileContent),
+              const SizedBox(height: 20),*/
+            ],
           ),
         );
-      },
+      }
+      ),
     );
   }
 

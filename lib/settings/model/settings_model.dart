@@ -114,4 +114,7 @@ class CaloriesAppSettings {
       await prefs.setBool(i.preferenceKey, allergies[i] ?? false);
     }
   }
+
+  bool hasAllergy(CaloriesAllergy allergy)
+    => allergies[allergy] ?? false;
 }
