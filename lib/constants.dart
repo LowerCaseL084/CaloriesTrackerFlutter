@@ -7,7 +7,8 @@ enum CaloriesAllergy {
   celery(preferenceKey: 'allergy_celery', text: 'Celery'),
   gluten(preferenceKey: 'allergy_gluten', text: 'Gluten'),
   crustaceans(preferenceKey: 'allergy_crustaceans', text: 'Crustaceans'),
-  treenuts(preferenceKey: 'allergy_treenuts', text: 'Treenuts');
+  treenuts(preferenceKey: 'allergy_treenuts', text: 'Treenuts'),
+  apples(preferenceKey: 'allergy_apples', text: "Apples");
 
   const CaloriesAllergy({
     required this.preferenceKey,

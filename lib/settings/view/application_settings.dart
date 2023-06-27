@@ -1,4 +1,5 @@
 import 'dart:developer' as developer;
+import 'package:calories_tracker/data/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:calories_tracker/settings/controller/settings_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,9 +17,11 @@ class CaloriesApplicationSettingsPage extends ConsumerStatefulWidget {
 
 class _CaloriesApplicationSettingsPageState
     extends ConsumerState<CaloriesApplicationSettingsPage> {
+  bool cleared = false;
   @override
   Widget build(BuildContext context) {
-    var asyncSettings = ref.watch(settingsProvider);
+    var asyncSettings = ref.watch(settingsNotifier);
+    ref.watch(dataStateProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -82,8 +85,16 @@ class _CaloriesApplicationSettingsPageState
                         }
                       },
                     )),
-                const ListTile(
-                  title: Text("Clear Data"),
+                ListTile(
+                  title: GestureDetector(
+                    child: Text(cleared?"Data cleared!":"Clear Data"),
+                    onTap: () async {
+                      await ref.read(dataStateProvider.notifier).clear();
+                      setState(() {
+                        cleared = true;
+                      });
+                    },
+                  ),
                 ),
                 const ListTile(
                   title: Text("Developer Info"),

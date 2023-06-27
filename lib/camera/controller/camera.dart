@@ -1,12 +1,11 @@
 import 'dart:async';
-import 'dart:io';
+//import 'dart:io';
 //import 'dart:io';
 
 //import 'package:image/image.dart' as image_package;
 import 'package:calories_tracker/constants.dart';
 import 'package:calories_tracker/camera/model/mask.dart';
 import 'package:flutter/material.dart';
-import 'package:cross_file/cross_file.dart';
 import 'dart:developer' as developer;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -48,7 +47,7 @@ class MasksNotifier extends AutoDisposeAsyncNotifier<Mask?>
   @override
   Future<Mask?> build() async
   {
-    getMasks();
+    await getMasks();
     return future;
   }
 
@@ -62,12 +61,12 @@ class MasksNotifier extends AutoDisposeAsyncNotifier<Mask?>
           try
           {
             var request = http.MultipartRequest('POST', Uri.parse(apiUrl));
-            print(file.name);
+            //print(file.name);
             var bytes = await file.readAsBytes();
             request.files.add(http.MultipartFile.fromBytes('file', bytes, filename: file.name));
 
             var response = await http.Response.fromStream(await request.send());
-            print(utf8.decode(response.bodyBytes));
+            //print(utf8.decode(response.bodyBytes));
             List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
             List<Image> images = [];
             List<String> labels = [];
@@ -84,11 +83,15 @@ class MasksNotifier extends AutoDisposeAsyncNotifier<Mask?>
           catch(e)
           {
             developer.log('API exception', name: "picture_sending", error: e.toString());
+            state = const AsyncData(null);
           }
+        }
+        else
+        {
+          state = const AsyncData(null);
         }
       }
     );
-    state = const AsyncData(null);
   }
 
   Image? boolListToImage(Uint8List? bytes, int width, int height)

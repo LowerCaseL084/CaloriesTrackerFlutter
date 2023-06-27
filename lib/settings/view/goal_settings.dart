@@ -19,7 +19,7 @@ class _CaloriesGoalSettingsPageState extends State<CaloriesGoalSettingsPage> {*/
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var asyncSettings = ref.watch(settingsProvider);
+    var asyncSettings = ref.watch(settingsNotifier);
     return Scaffold(
     appBar: AppBar(
       title: Text(title),
@@ -35,25 +35,6 @@ class _CaloriesGoalSettingsPageState extends State<CaloriesGoalSettingsPage> {*/
             //mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               ListTile(
-                title: const Text('Target Weight',
-                    style: TextStyle(
-                      fontSize: 25.0,
-                    )),
-                trailing: Text(settings.targetWeight.toString(),
-                    style: const TextStyle(
-                      fontSize: 25.0,
-                    )),
-                onTap: () => {
-                  InputDialog.displayIntInputDialog(context,
-                      title: "Enter username: ",
-                      controller:
-                          TextEditingController(text: settings.targetWeight.toString()),
-                      onIntEntered: (s) {
-                        ref.read(settingsNotifier.notifier).set(targetWeight: s);
-                  }),
-                },
-              ),
-              ListTile(
                 title: const Text("Recommended Settings"),
                 trailing: Switch(
                   value: settings.isRecommendedSettings,
@@ -62,6 +43,62 @@ class _CaloriesGoalSettingsPageState extends State<CaloriesGoalSettingsPage> {*/
                   },
                 ),
               ),
+              if(settings.isRecommendedSettings)
+                ListTile(
+                  title: const Text('Target Weight',
+                      style: TextStyle(
+                        fontSize: 25.0,
+                      )),
+                  trailing: Text(settings.targetWeight.toString(),
+                      style: const TextStyle(
+                        fontSize: 25.0,
+                      )),
+                  onTap: () => {
+                    InputDialog.displayIntInputDialog(context,
+                        title: "Enter weight: ",
+                        controller:
+                            TextEditingController(text: settings.targetWeight.toString()),
+                        onIntEntered: (s) {
+                          ref.read(settingsNotifier.notifier).set(targetWeight: s);
+                    }),
+                  },
+                ),
+              if(!settings.isRecommendedSettings)
+                ListTile(
+                  title: const Text('Target Calories',
+                      style: TextStyle(
+                        fontSize: 25.0,
+                      )),
+                  trailing: Text(settings.targetCalories.toString(),
+                      style: const TextStyle(
+                        fontSize: 25.0,
+                      )),
+                  onTap: () => {
+                    InputDialog.displayDoubleInputDialog(context,
+                        title: "Enter calories: ",
+                        controller:
+                            TextEditingController(text: settings.targetCalories.toString()),
+                        onIntEntered: (s) {
+                          ref.read(settingsNotifier.notifier).set(targetCalories: s);
+                    }),
+                  },
+                ),
+              if(!settings.isRecommendedSettings)
+                ListTile(
+                  title: const Text("Target Mode",
+                    style: TextStyle(
+                      fontSize: 25.0,
+                    )),
+                  trailing: GestureDetector(
+                    child: Text(settings.isCaloriesLessThan?"Maximum":"Minimum",
+                    style: const TextStyle(
+                      fontSize: 25.0,
+                    )),
+                    onTap: () {
+                      ref.read(settingsNotifier.notifier).set(isCaloriesLessThan: !settings.isCaloriesLessThan);
+                    },
+                  ),
+                ),
             ],
           );
         },
